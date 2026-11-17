@@ -6,6 +6,7 @@ The first public release of AppMonitor, a calmer process monitor for macOS.
 
 ## Highlights
 
+- **Quit the selected app.** The red power button in the toolbar now quits the application selected in the list, not AppMonitor itself. It uses the normal graceful-quit path, so unsaved-work prompts still appear.
 - **Stable main list.** Applications are ordered once by CPU at launch and then stay frozen while metrics update in place. New apps append instead of inserting.
 - **Live inspector.** The Live Applications card ranks every running app by current CPU and updates every 2.5 seconds. Click any row to select it in the main list.
 - **Manual re-ranking.** Choosing CPU, Memory, or Name re-orders the list once, then freezes it again.
@@ -28,6 +29,6 @@ The first public release of AppMonitor, a calmer process monitor for macOS.
 ## Integrity
 
 ```text
-SHA-256  c8dcfb3789d7aeb2afdcdaad0445b046cef9dbdb2f4df1b14cf87e8284461f53
+SHA-256  1cb081d6f67dd701ff2aaa9ea8b3a0d16445e1c4bb2bd9198c19c5f51a392a12
 Size     2.5 MB
 ```

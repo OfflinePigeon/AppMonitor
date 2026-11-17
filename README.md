@@ -82,7 +82,7 @@ There is no simulated mode in the shipping app. The sidebar footer shows **Live 
 - **Search** from the toolbar field. Searching a helper such as `swift-frontend` keeps Xcode as the parent result and adds a matching-process count.
 - **Select** an app to populate the inspector. Use the star button to pin it to Favorites. The Live Applications card below the metrics always shows every app in current CPU order and can be clicked to change the selection.
 - **Right-click** a row for favorite, Reveal in Finder, Copy Process Summary, and Copy PID.
-- **Quit** with the red power button in the toolbar or ⌘Q.
+- **Quit the selected application** with the red power button in the toolbar. It asks the app to quit gracefully, so unsaved-work prompts still appear. Use ⌘Q to quit AppMonitor itself.
 
 ### What the numbers mean
 
@@ -102,6 +102,7 @@ Background-filtered totals combine processes a provider could not inspect with s
 | ⌘R | Refresh now |
 | ⌥⌘I | Show or hide the inspector |
 | ⌘Q | Quit AppMonitor |
+| Toolbar power button | Quit the selected application |
 
 ## Architecture
 

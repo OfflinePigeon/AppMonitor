@@ -67,6 +67,25 @@ struct ContentView: View {
         return viewModel.group(withID: selection)
     }
 
+    private var selectedRunningApplication: NSRunningApplication? {
+        guard let group = selectedGroup else { return nil }
+        return NSRunningApplication(processIdentifier: group.application.pid)
+    }
+
+    /// Asks the selected application to quit gracefully. Apps with unsaved work
+    /// still get their normal save/cancel prompt.
+    private func quitSelectedApplication() {
+        guard let application = selectedRunningApplication else { return }
+        _ = application.terminate()
+    }
+
+    private var quitHelp: String {
+        guard let group = selectedGroup else {
+            return "Select an application to quit"
+        }
+        return "Quit \(group.displayName)"
+    }
+
     /// Keep the application list readable when the window approaches its
     /// minimum width by giving the inspector a slightly narrower column.
     private func inspectorWidth(for detailWidth: CGFloat) -> CGFloat {
@@ -77,12 +96,14 @@ struct ContentView: View {
     private var toolbarContent: some ToolbarContent {
         ToolbarItemGroup(placement: .primaryAction) {
             Button {
-                NSApplication.shared.terminate(nil)
+                quitSelectedApplication()
             } label: {
                 Image(systemName: "power")
                     .foregroundStyle(Color.red.opacity(0.82))
             }
-            .help("Quit AppMonitor (⌘Q)")
+            .help(quitHelp)
+            .accessibilityLabel(quitHelp)
+            .disabled(selectedRunningApplication == nil)
 
             Button {
                 Task { await viewModel.refresh() }
