@@ -115,18 +115,18 @@ struct AppMarkView: View {
             RoundedRectangle(cornerRadius: size * 0.24, style: .continuous)
                 .fill(
                     LinearGradient(
-                        colors: [Color(red: 0.16, green: 0.48, blue: 0.95),
-                                 Color(red: 0.10, green: 0.72, blue: 0.75)],
+                        colors: [Color(red: 0.03, green: 0.15, blue: 0.25),
+                                 Color(red: 0.04, green: 0.43, blue: 0.44)],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
                 )
-            Image(systemName: "waveform.path.ecg")
-                .font(.system(size: size * 0.52, weight: .bold))
+            Image(systemName: "power")
+                .font(.system(size: size * 0.56, weight: .bold))
                 .foregroundStyle(.white)
         }
         .frame(width: size, height: size)
-        .shadow(color: Color.blue.opacity(0.25), radius: size * 0.12, x: 0, y: size * 0.06)
+        .shadow(color: Color.teal.opacity(0.24), radius: size * 0.12, x: 0, y: size * 0.06)
         .accessibilityHidden(true)
     }
 }

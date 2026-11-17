@@ -6,13 +6,6 @@ let outputDirectory = CommandLine.arguments.count > 1
     ? CommandLine.arguments[1]
     : "AppMonitor/Resources/Assets.xcassets/AppIcon.appiconset"
 
-func point(in rect: NSRect, _ x: CGFloat, _ y: CGFloat) -> NSPoint {
-    NSPoint(
-        x: rect.minX + rect.width * x,
-        y: rect.minY + rect.height * y
-    )
-}
-
 func makeIcon(pixelSize: Int) -> NSImage {
     let size = CGFloat(pixelSize)
     let image = NSImage(size: NSSize(width: size, height: size))
@@ -37,52 +30,35 @@ func makeIcon(pixelSize: Int) -> NSImage {
     let shadow = NSShadow()
     shadow.shadowBlurRadius = size * 0.045
     shadow.shadowOffset = NSSize(width: 0, height: -size * 0.018)
-    shadow.shadowColor = NSColor.black.withAlphaComponent(0.30)
+    shadow.shadowColor = NSColor.black.withAlphaComponent(0.32)
     shadow.set()
     NSColor.black.setFill()
     shape.fill()
     NSGraphicsContext.restoreGraphicsState()
 
+    // Calm navy-to-teal base, matching the app's inspector accents.
     let gradient = NSGradient(colors: [
-        NSColor(srgbRed: 0.025, green: 0.095, blue: 0.190, alpha: 1),
-        NSColor(srgbRed: 0.035, green: 0.275, blue: 0.470, alpha: 1),
-        NSColor(srgbRed: 0.045, green: 0.585, blue: 0.585, alpha: 1)
+        NSColor(srgbRed: 0.025, green: 0.105, blue: 0.190, alpha: 1),
+        NSColor(srgbRed: 0.025, green: 0.255, blue: 0.315, alpha: 1),
+        NSColor(srgbRed: 0.035, green: 0.415, blue: 0.430, alpha: 1)
     ])
-    gradient?.draw(in: shape, angle: -55)
+    gradient?.draw(in: shape, angle: -62)
 
     NSGraphicsContext.saveGraphicsState()
     shape.addClip()
 
-    // Cyan glow behind the screen.
+    // A single quiet glow keeps the mark readable at small sizes.
     let glow = NSGradient(colors: [
-        NSColor(srgbRed: 0.15, green: 0.90, blue: 0.88, alpha: 0.34),
-        NSColor(srgbRed: 0.15, green: 0.90, blue: 0.88, alpha: 0.0)
+        NSColor(srgbRed: 0.23, green: 0.92, blue: 0.85, alpha: 0.22),
+        NSColor(srgbRed: 0.23, green: 0.92, blue: 0.85, alpha: 0.0)
     ])
     glow?.draw(
-        fromCenter: point(in: iconRect, 0.58, 0.57),
+        fromCenter: NSPoint(x: iconRect.midX, y: iconRect.midY),
         radius: 0,
-        toCenter: point(in: iconRect, 0.58, 0.57),
+        toCenter: NSPoint(x: iconRect.midX, y: iconRect.midY),
         radius: iconRect.width * 0.52,
         options: []
     )
-
-    // Glassy top-left sheen.
-    let sheen = NSBezierPath(ovalIn: NSRect(
-        x: iconRect.minX - size * 0.28,
-        y: iconRect.minY + size * 0.40,
-        width: size * 1.15,
-        height: size * 0.90
-    ))
-    NSColor.white.withAlphaComponent(0.10).setFill()
-    sheen.fill()
-
-    // Subtle bottom shade.
-    let shadeRect = NSRect(x: iconRect.minX, y: iconRect.minY, width: iconRect.width, height: iconRect.height * 0.45)
-    let shade = NSGradient(colors: [
-        NSColor.black.withAlphaComponent(0.0),
-        NSColor.black.withAlphaComponent(0.24)
-    ])
-    shade?.draw(in: shadeRect, angle: -90)
     NSGraphicsContext.restoreGraphicsState()
 
     // Inner rim.
@@ -92,98 +68,41 @@ func makeIcon(pixelSize: Int) -> NSImage {
         yRadius: corner
     )
     rim.lineWidth = size * 0.007
-    NSColor.white.withAlphaComponent(0.24).setStroke()
+    NSColor.white.withAlphaComponent(0.20).setStroke()
     rim.stroke()
 
-    // Monitor screen.
-    let screen = NSRect(
-        x: iconRect.minX + iconRect.width * 0.17,
-        y: iconRect.minY + iconRect.height * 0.335,
-        width: iconRect.width * 0.66,
-        height: iconRect.height * 0.365
-    )
-    let screenCorner = size * 0.060
-    let screenPath = NSBezierPath(roundedRect: screen, xRadius: screenCorner, yRadius: screenCorner)
-    NSColor.white.withAlphaComponent(0.055).setFill()
-    screenPath.fill()
-    screenPath.lineWidth = size * 0.034
-    screenPath.lineJoinStyle = .round
-    NSColor.white.withAlphaComponent(0.94).setStroke()
-    screenPath.stroke()
+    // Simple power mark: an open ring with a single vertical stem.
+    let center = NSPoint(x: iconRect.midX, y: iconRect.midY)
+    let radius = iconRect.width * 0.245
+    let lineWidth = iconRect.width * 0.078
 
-    // Monitor stand.
-    let neck = NSBezierPath()
-    neck.move(to: NSPoint(x: iconRect.midX - size * 0.032, y: screen.minY))
-    neck.line(to: NSPoint(x: iconRect.midX - size * 0.032, y: iconRect.minY + iconRect.height * 0.265))
-    neck.line(to: NSPoint(x: iconRect.midX + size * 0.032, y: iconRect.minY + iconRect.height * 0.265))
-    neck.line(to: NSPoint(x: iconRect.midX + size * 0.032, y: screen.minY))
-    neck.lineWidth = size * 0.026
-    neck.lineCapStyle = .round
-    neck.lineJoinStyle = .round
-    NSColor.white.withAlphaComponent(0.94).setStroke()
-    neck.stroke()
-
-    let base = NSBezierPath(
-        roundedRect: NSRect(
-            x: iconRect.midX - size * 0.105,
-            y: iconRect.minY + iconRect.height * 0.205,
-            width: size * 0.210,
-            height: size * 0.030
-        ),
-        xRadius: size * 0.015,
-        yRadius: size * 0.015
+    let ring = NSBezierPath()
+    ring.appendArc(
+        withCenter: center,
+        radius: radius,
+        startAngle: 120,
+        endAngle: 420,
+        clockwise: false
     )
-    NSColor.white.withAlphaComponent(0.94).setFill()
-    base.fill()
+    ring.lineWidth = lineWidth
+    ring.lineCapStyle = .round
+    ring.lineJoinStyle = .round
 
-    // Live indicator.
-    let liveRadius = size * 0.027
-    let liveCenter = NSPoint(
-        x: screen.maxX - size * 0.075,
-        y: screen.maxY - size * 0.060
-    )
-    let liveGlow = NSGradient(colors: [
-        NSColor(srgbRed: 0.35, green: 1.0, blue: 0.60, alpha: 0.55),
-        NSColor(srgbRed: 0.35, green: 1.0, blue: 0.60, alpha: 0.0)
-    ])
-    liveGlow?.draw(
-        fromCenter: liveCenter,
-        radius: 0,
-        toCenter: liveCenter,
-        radius: liveRadius * 3.2,
-        options: []
-    )
-    NSColor(srgbRed: 0.47, green: 1.0, blue: 0.68, alpha: 1).setFill()
-    NSBezierPath(
-        ovalIn: NSRect(
-            x: liveCenter.x - liveRadius,
-            y: liveCenter.y - liveRadius,
-            width: liveRadius * 2,
-            height: liveRadius * 2
-        )
-    ).fill()
-
-    // Pulse line inside the screen.
-    let pulse = NSBezierPath()
-    pulse.move(to: point(in: screen, 0.10, 0.47))
-    pulse.line(to: point(in: screen, 0.31, 0.47))
-    pulse.line(to: point(in: screen, 0.40, 0.67))
-    pulse.line(to: point(in: screen, 0.51, 0.27))
-    pulse.line(to: point(in: screen, 0.61, 0.59))
-    pulse.line(to: point(in: screen, 0.70, 0.47))
-    pulse.line(to: point(in: screen, 0.90, 0.47))
-    pulse.lineWidth = size * 0.046
-    pulse.lineCapStyle = .round
-    pulse.lineJoinStyle = .round
+    let stem = NSBezierPath()
+    stem.move(to: NSPoint(x: center.x, y: center.y + lineWidth * 0.12))
+    stem.line(to: NSPoint(x: center.x, y: center.y + radius + lineWidth * 0.28))
+    stem.lineWidth = lineWidth
+    stem.lineCapStyle = .round
 
     NSGraphicsContext.saveGraphicsState()
-    let pulseGlow = NSShadow()
-    pulseGlow.shadowBlurRadius = size * 0.030
-    pulseGlow.shadowOffset = .zero
-    pulseGlow.shadowColor = NSColor(srgbRed: 0.25, green: 0.95, blue: 0.92, alpha: 0.85)
-    pulseGlow.set()
-    NSColor.white.setStroke()
-    pulse.stroke()
+    let glowShadow = NSShadow()
+    glowShadow.shadowBlurRadius = size * 0.042
+    glowShadow.shadowOffset = .zero
+    glowShadow.shadowColor = NSColor(srgbRed: 0.34, green: 0.96, blue: 0.90, alpha: 0.72)
+    glowShadow.set()
+    NSColor(srgbRed: 0.955, green: 1.0, blue: 0.995, alpha: 1).setStroke()
+    ring.stroke()
+    stem.stroke()
     NSGraphicsContext.restoreGraphicsState()
 
     image.unlockFocus()

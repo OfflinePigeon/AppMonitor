@@ -4,7 +4,7 @@ A focused, native macOS process monitor built with SwiftUI. AppMonitor orders th
 
 It samples this Mac's live process table through public libproc APIs — no root access, private frameworks, or special entitlements required.
 
-**[Download AppMonitor 1.0](https://appmonitor.surge.sh)** · **[GitHub Releases](https://github.com/OfflinePigeon/AppMonitor/releases)** · **[Website source](web/)**
+**[Download AppMonitor 1.0](https://github.com/OfflinePigeon/AppMonitor/releases/latest)**
 
 | Light | Dark |
 | :---: | :---: |
@@ -25,7 +25,7 @@ It samples this Mac's live process table through public libproc APIs — no root
 
 ## Download
 
-The signed, universal build is available from **[appmonitor.surge.sh](https://appmonitor.surge.sh)** and attached to the **[latest GitHub release](https://github.com/OfflinePigeon/AppMonitor/releases)** as `AppMonitor.zip`.
+The signed, universal build is attached to the **[latest GitHub release](https://github.com/OfflinePigeon/AppMonitor/releases/latest)** as `AppMonitor.zip`.
 
 1. Download and unzip `AppMonitor.zip`.
 2. Move `AppMonitor.app` into `/Applications`.
@@ -256,7 +256,6 @@ Support/AppMonitor-Info.plist        # Bundle metadata and icon keys
 Scripts/generate_app_icon.swift      # Regenerates the icon set and .icns
 project.yml                          # XcodeGen source of truth
 docs/                                # README screenshots and release notes
-web/                                 # Static site, assets, and download ZIP
 dist/                                # Local release artifacts (ignored by git)
 ```
 
@@ -282,17 +281,7 @@ The icon is generated programmatically with AppKit, so it can be regenerated wit
 swift Scripts/generate_app_icon.swift
 ```
 
-This writes all required sizes into `AppMonitor/Resources/Assets.xcassets/AppIcon.appiconset` and rebuilds `AppMonitor/Resources/AppIcon.icns` for Finder and the downloaded bundle.
-
-## Website
-
-The static site in [`web/`](web/) hosts the download, screenshots, feature notes, and links to GitHub Releases. It is deployed to Surge:
-
-```bash
-surge web appmonitor.surge.sh
-```
-
-`web/AppMonitor.zip` is the same archive copied to `/Applications` and attached to the GitHub release. Rebuild the archive with `ditto -c -k --sequesterRsrc --keepParent` before publishing a new version.
+This writes all required sizes into `AppMonitor/Resources/Assets.xcassets/AppIcon.appiconset` and rebuilds `AppMonitor/Resources/AppIcon.icns` for Finder and the downloaded bundle. The mark is a simple power symbol on a navy-to-teal tile.
 
 ## Design notes and limitations
 

@@ -2,7 +2,7 @@
 
 The first public release of AppMonitor, a calmer process monitor for macOS.
 
-**[Download AppMonitor.zip](https://appmonitor.surge.sh/AppMonitor.zip)** · **[Website](https://appmonitor.surge.sh)**
+**[Download AppMonitor.zip](https://github.com/OfflinePigeon/AppMonitor/releases/download/v1.0.0/AppMonitor.zip)** · **[Repository](https://github.com/OfflinePigeon/AppMonitor)**
 
 ## Highlights
 
@@ -12,7 +12,7 @@ The first public release of AppMonitor, a calmer process monitor for macOS.
 - **Application-first grouping.** Chrome renderers, Xcode workers, WebKit content processes, and Electron helpers nest under their parent app.
 - **Honest filtering.** High CPU, High Memory, and Favorites filters, with a visible count of filtered background tasks.
 - **Native and local.** SwiftUI, public libproc APIs, no root access, no account, and no telemetry.
-- **New app icon.** A dark teal monitor-and-pulse mark, generated reproducibly with AppKit.
+- **New app icon.** A clean power symbol on a navy-to-teal tile, generated reproducibly with AppKit.
 
 ## Install
 
@@ -28,6 +28,6 @@ The first public release of AppMonitor, a calmer process monitor for macOS.
 ## Integrity
 
 ```text
-SHA-256  7cb1c97bfc12d5a5a3ebaabfc4f3bbe8bb3369e9d2cea2f534a73bf0a256242d
+SHA-256  c8dcfb3789d7aeb2afdcdaad0445b046cef9dbdb2f4df1b14cf87e8284461f53
 Size     2.5 MB
 ```
