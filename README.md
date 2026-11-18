@@ -4,7 +4,7 @@ A focused, native macOS process monitor built with SwiftUI. AppMonitor orders th
 
 It samples this Mac's live process table through public libproc APIs — no root access, private frameworks, or special entitlements required.
 
-**[Download AppMonitor 1.0](https://github.com/OfflinePigeon/AppMonitor/releases/latest)**
+**Download the latest Appmonitor [here](https://github.com/OfflinePigeon/AppMonitor/releases/latest) or from the website [here]https://clean-appmonitor.lovable.app/** 
 
 | Light | Dark |
 | :---: | :---: |
